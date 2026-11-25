@@ -62,6 +62,8 @@ public partial class Form1 : Form
     private bool _isBusy;
     private bool _ordersTabIsSelected;
     private bool _ordersPollingInProgress;
+    private bool _isBindingOrdersGrid;
+    private int _ordersLoadVersion;
 
     public Form1()
     {

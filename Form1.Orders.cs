@@ -244,6 +244,11 @@ public partial class Form1
 
     private void OrdersGrid_SelectionChanged(object? sender, EventArgs e)
     {
+        if (_isBindingOrdersGrid)
+        {
+            return;
+        }
+
         if (_ordersGrid.SelectedRows.Count == 0 ||
             _ordersGrid.SelectedRows[0].DataBoundItem is not OrderRow order)
         {
@@ -254,8 +259,9 @@ public partial class Form1
 
         _selectedOrderDocumentId = order.DocumentId;
         _orderUserComboBox.SelectedItem = _userRows.FirstOrDefault(
-            user => string.Equals(user.Uid, order.UserId, StringComparison.Ordinal) ||
-                    string.Equals(user.DocumentId, order.UserId, StringComparison.Ordinal));
+            user => string.Equals(user.Uid, order.UserId, StringComparison.Ordinal)) ??
+            _userRows.FirstOrDefault(
+                user => string.Equals(user.DocumentId, order.UserId, StringComparison.Ordinal));
         _orderFoodComboBox.SelectedItem = _foodRows.FirstOrDefault(
             food => string.Equals(food.Id, order.FoodId, StringComparison.Ordinal));
         _orderQuantityInput.Value = Math.Min(
@@ -342,12 +348,19 @@ public partial class Form1
             return false;
         }
 
+        var loadVersion = ++_ordersLoadVersion;
+
         try
         {
             var endpoint = $"{GetOrdersEndpoint()}?pageSize=100";
             using var request = CreateFirestoreRequest(HttpMethod.Get, endpoint);
             using var response = await _httpClient.SendAsync(request);
             var responseBody = await response.Content.ReadAsStringAsync();
+
+            if (loadVersion != _ordersLoadVersion)
+            {
+                return false;
+            }
 
             if (!response.IsSuccessStatusCode)
             {
@@ -435,11 +448,49 @@ public partial class Form1
                 }
             }
 
+            var selectedOrderId = _selectedOrderDocumentId;
             var sortedOrders = orders
                 .OrderByDescending(order => order.OrderedAtValue)
                 .ThenBy(order => order.CustomerName, StringComparer.CurrentCultureIgnoreCase)
                 .ToList();
-            _ordersGrid.DataSource = sortedOrders;
+
+            _isBindingOrdersGrid = true;
+            try
+            {
+                _ordersGrid.DataSource = null;
+                _ordersGrid.DataSource = sortedOrders;
+                _ordersGrid.CurrentCell = null;
+                _ordersGrid.ClearSelection();
+            }
+            finally
+            {
+                _isBindingOrdersGrid = false;
+            }
+
+            var selectedOrder = string.IsNullOrWhiteSpace(selectedOrderId)
+                ? null
+                : sortedOrders.FirstOrDefault(
+                    order => string.Equals(
+                        order.DocumentId,
+                        selectedOrderId,
+                        StringComparison.Ordinal));
+
+            if (selectedOrder is null)
+            {
+                ClearOrderEditor();
+            }
+            else
+            {
+                var selectedRow = _ordersGrid.Rows
+                    .Cast<DataGridViewRow>()
+                    .FirstOrDefault(row => ReferenceEquals(row.DataBoundItem, selectedOrder));
+                if (selectedRow is not null)
+                {
+                    selectedRow.Selected = true;
+                    _ordersGrid.CurrentCell = selectedRow.Cells[0];
+                }
+            }
+
             _salesSummaryLabel.Text =
                 $"Total sales: {sortedOrders.Sum(order => order.TotalAmount):C2} | " +
                 $"Orders: {sortedOrders.Count}";

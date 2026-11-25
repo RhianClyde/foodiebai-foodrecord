@@ -8,19 +8,19 @@
     "net11.0-windows": []
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {}
+    "C:\\Users\\HCDC-\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\MyFirstapp\\MyFirstapp.csproj",
+      "projectUniqueName": "C:\\Users\\HCDC-\\foodiebai-foodrecord\\MyFirstapp.csproj",
       "projectName": "MyFirstapp",
-      "projectPath": "C:\\Users\\Admin\\MyFirstapp\\MyFirstapp.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\MyFirstapp\\obj\\",
+      "projectPath": "C:\\Users\\HCDC-\\foodiebai-foodrecord\\MyFirstapp.csproj",
+      "packagesPath": "C:\\Users\\HCDC-\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\HCDC-\\foodiebai-foodrecord\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\HCDC-\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net11.0-windows"
