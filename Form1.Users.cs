@@ -58,8 +58,6 @@ public partial class Form1
                 return;
             }
 
-            // Use the new user's token only for creating its own profile, then
-            // restore the currently signed-in admin token.
             _firebaseIdToken = authResponse.IdToken;
             var profileSaved = await SaveUserProfileAsync(
                 authResponse.LocalId,

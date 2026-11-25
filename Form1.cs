@@ -8,9 +8,6 @@ namespace MyFirstapp;
 
 public partial class Form1 : Form
 {
-    // Get these values from Firebase Console > Project settings > Your apps.
-    // The Web API key is not a database password. Access is controlled by
-    // Firebase Authentication and Firestore Security Rules.
     private const string FirebaseProjectId = "foodiebai";
     private const string FirebaseWebApiKey = "AIzaSyBxWU7L3_IWsYbltcjaVDfhmX3wp0CMEvI";
     private const int OrdersPollingIntervalMilliseconds = 5_000;

@@ -71,3 +71,4 @@ C:\Users\Admin\MyFirstapp\bin\Debug\function-check\MyFirstapp.runtimeconfig.json
 C:\Users\Admin\MyFirstapp\bin\Debug\function-check\MyFirstapp.runtimeconfig.dev.json
 C:\Users\Admin\MyFirstapp\bin\Debug\function-check\MyFirstapp.dll
 C:\Users\Admin\MyFirstapp\bin\Debug\function-check\MyFirstapp.pdb
+C:\Users\Admin\MyFirstapp\obj\Debug\net11.0-windows\MyFirstapp.sourcelink.json

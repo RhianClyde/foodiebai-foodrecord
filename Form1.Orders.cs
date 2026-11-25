@@ -219,8 +219,6 @@ public partial class Form1
         _ordersPollingInProgress = true;
         try
         {
-            // Firestore's REST list endpoint is used by this app, so polling is
-            // the reliable way to receive orders created by another app.
             await LoadOrdersAsync();
         }
         finally
@@ -370,9 +368,6 @@ public partial class Form1
                         ? documentName[(lastSlash + 1)..]
                         : documentName;
                     var fields = item.GetProperty("fields");
-                    // Normalize both order shapes currently in Firestore:
-                    // the C# shape (customerName/foodName/totalAmount) and
-                    // the Android shape (username/itemsSummary/totalPrice).
                     var userId = ReadFirstStringField(fields, "userId", "uid");
                     var customerName = ReadFirstStringField(
                         fields,
@@ -403,9 +398,6 @@ public partial class Form1
                             MidpointRounding.AwayFromZero);
                     }
 
-                    // Ignore partially-created documents that contain only a
-                    // timestamp. They are not real orders and must not appear
-                    // as blank rows or count toward sales.
                     if (string.IsNullOrWhiteSpace(userId) &&
                         string.IsNullOrWhiteSpace(customerName) &&
                         string.IsNullOrWhiteSpace(customerEmail) &&

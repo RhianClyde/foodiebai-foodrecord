@@ -187,7 +187,6 @@ public partial class Form1
         var endpoint =
             $"{GetUserDocumentEndpoint(userId)}?updateMask.fieldPaths=uid&updateMask.fieldPaths=username&updateMask.fieldPaths=email&updateMask.fieldPaths=createdAt&updateMask.fieldPaths=password";
 
-        // Never put the password in Firestore. Firebase Authentication owns it.
         var requestBody = new
         {
             fields = new Dictionary<string, object>

@@ -21,7 +21,6 @@ public partial class Form1
             SetFoodActionsEnabled(false);
             SetStatus("Adding food...", Color.DarkOrange);
 
-            // Omitting documentId tells Firestore to generate a unique ID.
             using var request = CreateFirestoreRequest(
                 HttpMethod.Post,
                 GetFoodsEndpoint(),
@@ -282,8 +281,6 @@ public partial class Form1
             return false;
         }
 
-        // Store the cleaned value in the controls too, so the input and database
-        // always use the same normalized data.
         _foodNameTextBox.Text = foodName;
         _priceInput.Value = price;
         return true;
